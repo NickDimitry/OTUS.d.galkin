@@ -2,10 +2,7 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    [CreateAssetMenu(
-        fileName = "BulletConfig",
-        menuName = "Bullets/New BulletConfig"
-    )]
+    [CreateAssetMenu(fileName = "BulletConfig", menuName = "Bullets/New BulletConfig")]
     public sealed class BulletConfig : ScriptableObject
     {
         [SerializeField]
@@ -19,5 +16,8 @@ namespace ShootEmUp
 
         [SerializeField]
         public float speed;
+
+        [SerializeField]
+        public bool player;
     }
 }
