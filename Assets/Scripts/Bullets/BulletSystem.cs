@@ -3,55 +3,53 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-
-
     public sealed class BulletSystem : MonoBehaviour
     {
         [SerializeField]
-        private int initialCount = 50;
+        private int _initialCount = 50;
         
-        [SerializeField] private Transform container;
-        [SerializeField] private Bullet prefab;
-        [SerializeField] private Transform worldTransform;
-        [SerializeField] private LevelBounds levelBounds;
+        [SerializeField] private Transform _container;
+        [SerializeField] private Bullet _prefab;
+        [SerializeField] private Transform _worldTransform;
+        [SerializeField] private LevelBounds _levelBounds;
 
-        private readonly Queue<Bullet> m_bulletPool = new();
-        private readonly HashSet<Bullet> m_activeBullets = new();
-        private readonly List<Bullet> m_cache = new();
+        private readonly Queue<Bullet> _m_bulletPool = new();
+        private readonly HashSet<Bullet> _m_activeBullets = new();
+        private readonly List<Bullet> _m_cache = new();
         
         private void Awake()
         {
-            for (var i = 0; i < this.initialCount; i++)
+            for (var i = 0; i < _initialCount; i++)
             {
-                var bullet = Instantiate(this.prefab, this.container);
-                this.m_bulletPool.Enqueue(bullet);
+                var bullet = Instantiate(_prefab, _container);
+                _m_bulletPool.Enqueue(bullet);
             }
         }
         
         private void FixedUpdate()
         {
-            this.m_cache.Clear();
-            this.m_cache.AddRange(this.m_activeBullets);
+            _m_cache.Clear();
+            _m_cache.AddRange(_m_activeBullets);
 
-            for (int i = 0, count = this.m_cache.Count; i < count; i++)
+            for (int i = 0, count = _m_cache.Count; i < count; i++)
             {
-                var bullet = this.m_cache[i];
-                if (!this.levelBounds.InBounds(bullet.transform.position))
+                var bullet = _m_cache[i];
+                if (!_levelBounds.InBounds(bullet.transform.position))
                 {
-                    this.RemoveBullet(bullet);
+                    RemoveBullet(bullet);
                 }
             }
         }
 
         public void FlyBulletByArgs(Args args)
         {
-            if (this.m_bulletPool.TryDequeue(out var bullet))
+            if (_m_bulletPool.TryDequeue(out var bullet))
             {
-                bullet.transform.SetParent(this.worldTransform);
+                bullet.transform.SetParent(_worldTransform);
             }
             else
             {
-                bullet = Instantiate(this.prefab, this.worldTransform);
+                bullet = Instantiate(_prefab, _worldTransform);
             }
 
             bullet.SetPosition(args.position);
@@ -61,25 +59,25 @@ namespace ShootEmUp
             bullet.isPlayer = args.isPlayer;
             bullet.SetVelocity(args.velocity);
             
-            if (this.m_activeBullets.Add(bullet))
+            if (_m_activeBullets.Add(bullet))
             {
-                bullet.OnCollisionEntered += this.OnBulletCollision;
+                bullet.OnCollisionEntered += OnBulletCollision;
             }
         }
         
         private void OnBulletCollision(Bullet bullet, Collision2D collision)
         {
             BulletUtils.DealDamage(bullet, collision.gameObject);
-            this.RemoveBullet(bullet);
+            RemoveBullet(bullet);
         }
 
         private void RemoveBullet(Bullet bullet)
         {
-            if (this.m_activeBullets.Remove(bullet))
+            if (_m_activeBullets.Remove(bullet))
             {
-                bullet.OnCollisionEntered -= this.OnBulletCollision;
-                bullet.transform.SetParent(this.container);
-                this.m_bulletPool.Enqueue(bullet);
+                bullet.OnCollisionEntered -= OnBulletCollision;
+                bullet.transform.SetParent(_container);
+                _m_bulletPool.Enqueue(bullet);
             }
         }
    
