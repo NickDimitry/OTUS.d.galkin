@@ -3,6 +3,8 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
+
+
     public sealed class BulletSystem : MonoBehaviour
     {
         [SerializeField]
@@ -80,7 +82,7 @@ namespace ShootEmUp
                 this.m_bulletPool.Enqueue(bullet);
             }
         }
-        
+   
         public struct Args
         {
             public Vector2 position;
