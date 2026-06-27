@@ -1,4 +1,3 @@
-using ShootEmUp;
 using UnityEngine;
 
 public sealed class Player : MonoBehaviour
