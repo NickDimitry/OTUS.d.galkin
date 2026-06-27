@@ -5,7 +5,7 @@ namespace ShootEmUp
 {
     public sealed class Bullet : MonoBehaviour
     {
-        public event Action<Bullet, Collision2D> OnCollisionEntered;
+        public event Action<Bullet> OnCollisionEntered;
 
         [NonSerialized] public bool isPlayer;
         [NonSerialized] public int damage;
@@ -16,7 +16,11 @@ namespace ShootEmUp
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            OnCollisionEntered?.Invoke(this, collision);
+            if (collision.gameObject.TryGetComponent<IEnemyHealth>(out IEnemyHealth enemyHealth))
+            {
+                enemyHealth.TakeDamage(damage);
+            }
+            OnCollisionEntered?.Invoke(this);
         }
 
         public void SetVelocity(Vector2 velocity)
