@@ -9,7 +9,7 @@ public sealed class PlayerInput: MonoBehaviour
 {
     #region Поля
 
-    private Vector3 _vectorPlayer;
+    private Vector2 _vectorPlayer;
 
     #endregion
 
@@ -20,7 +20,7 @@ public sealed class PlayerInput: MonoBehaviour
     #endregion
 
     #region Свойства
-    public Vector3 VectorPlayer
+    public Vector2 VectorPlayer
     {
         get
         {
@@ -38,10 +38,9 @@ public sealed class PlayerInput: MonoBehaviour
         }
 
         float _abscissa = Input.GetAxis("Horizontal");
-        float _ordinate = Input.GetAxis("Vertical");
 
         _vectorPlayer.x = _abscissa;
-        _vectorPlayer.y = _ordinate;
+        _vectorPlayer.y = 0;
     }
     #endregion
 }

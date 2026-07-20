@@ -1,10 +1,11 @@
 using System;
+using System.Numerics;
 using UnityEngine;
 
 // Уточнить можно ли получать изначальные данные для _speed из  Scriptable
 
 [RequireComponent(typeof(PlayerInput))]
-[RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(Rigidbody2D))]
 public sealed class MovePlayer : MonoBehaviour
 {
     #region Поля
@@ -16,7 +17,7 @@ public sealed class MovePlayer : MonoBehaviour
     #region Ссылки
 
     private PlayerInput _input;
-    private CharacterController _characterController;
+    private Rigidbody2D _rigidbody2D;
 
     #endregion
 
@@ -25,12 +26,13 @@ public sealed class MovePlayer : MonoBehaviour
     private void Start()
     {
         _input = GetComponent<PlayerInput>();
-        _characterController = GetComponent<CharacterController>();
+        _rigidbody2D = GetComponent<Rigidbody2D>();
     }
 
     private void Update()
     {
-        _characterController.Move(_input.VectorPlayer * (_speed * Time.deltaTime));
+        var nextPosition = _rigidbody2D.position + _input.VectorPlayer * (_speed * Time.deltaTime);
+        _rigidbody2D.MovePosition(nextPosition);
     }
 
     #endregion
