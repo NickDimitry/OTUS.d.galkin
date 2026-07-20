@@ -13,6 +13,7 @@ namespace ShootEmUp
         [SerializeField] private Transform _worldTransform;
         [SerializeField] private LevelBounds _levelBounds;
 
+
         private readonly Queue<Bullet> _m_bulletPool = new();
         private readonly HashSet<Bullet> _m_activeBullets = new();
         private readonly List<Bullet> _m_cache = new();
