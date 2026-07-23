@@ -10,11 +10,12 @@ namespace ShootEmUp
         [SerializeField] private Transform _worldTransform;
         [Header("Pool"), SerializeField] private Transform _container;
         [SerializeField] private GameObject _prefab;
+        [SerializeField] private int _enemyObject;
         private readonly Queue<GameObject> _enemyPool = new();
         
         private void Awake()
         {
-            for (var i = 0; i < 7; i++)
+            for (var i = 0; i < _enemyObject; i++)
             {
                 var enemy = Instantiate(_prefab, _container);
                 _enemyPool.Enqueue(enemy);

@@ -1,7 +1,6 @@
 using ShootEmUp;
 using UnityEngine;
 
-// Вот что-то мне тут не нравится.... Подумать как можно плучать данные из конфига другим способом, для начала.
 
 [RequireComponent(typeof(PlayerInput))]
 public sealed class PlayerAttack : MonoBehaviour
@@ -12,16 +11,21 @@ public sealed class PlayerAttack : MonoBehaviour
     private BulletSystem _bulletSystem;
     private Transform _firePoint;
     private BulletConfig _playerBulletConfig;
+    private const string PATH_PLAYER_BULLET = "Bullet/PlayerBullet";
 
     #endregion
     #region MonoBehaviour
+
+    private void OnEnable()
+    {
+        GetComponent<PlayerInput>()._playerAttack += Fire;
+    }
 
     private void Start()
     {
         _bulletSystem = FindFirstObjectByType<BulletSystem>();
         _firePoint = GameObject.Find("FirePoint").GetComponent<Transform>();    
-        _playerBulletConfig = Resources.Load<BulletConfig>("Bullet/PlayerBullet");
-        GetComponent<PlayerInput>()._playerAttack += Fire;
+        _playerBulletConfig = Resources.Load<BulletConfig>(PATH_PLAYER_BULLET);
     }
 
     private void OnDisable()

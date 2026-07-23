@@ -6,26 +6,24 @@ namespace ShootEmUp
 {
     public sealed class EnemyManager : MonoBehaviour
     {
-        [SerializeField]
-        private EnemyPool _enemyPool;
+        [SerializeField] private EnemyPool _enemyPool;
+        [SerializeField] private BulletSystem _bulletSystem;
+        [SerializeField] private int _await;
 
-        [SerializeField]
-        private BulletSystem _bulletSystem;
-        
-        private readonly HashSet<GameObject> m_activeEnemies = new();
+        private readonly HashSet<GameObject> _activeEnemies = new();
 
         private IEnumerator Start()
         {
             while (true)
             {
-                yield return new WaitForSeconds(1);
-                var enemy = this._enemyPool.SpawnEnemy();
+                yield return new WaitForSeconds(_await);
+                var enemy = _enemyPool.SpawnEnemy();
                 if (enemy != null)
                 {
-                    if (this.m_activeEnemies.Add(enemy))
+                    if (_activeEnemies.Add(enemy))
                     {
-                        enemy.GetComponent<HitPointsComponent>().hpEmpty += this.OnDestroyed;
-                        enemy.GetComponent<EnemyAttackAgent>().OnFire += this.OnFire;
+                        enemy.GetComponent<HitPointsComponent>().hpEmpty += OnDestroyed;
+                        enemy.GetComponent<EnemyAttackAgent>().OnFire += OnFire;
                     }    
                 }
             }
@@ -33,10 +31,12 @@ namespace ShootEmUp
 
         private void OnDestroyed(GameObject enemy)
         {
-            if (m_activeEnemies.Remove(enemy))
+            if (_activeEnemies.Remove(enemy))
             {
-                enemy.GetComponent<HitPointsComponent>().hpEmpty -= this.OnDestroyed;
-                enemy.GetComponent<EnemyAttackAgent>().OnFire -= this.OnFire;
+                HitPointsComponent EnemyhitPointsComponent = enemy.GetComponent<HitPointsComponent>();
+                EnemyhitPointsComponent.hpEmpty -= OnDestroyed;
+                EnemyhitPointsComponent.HitPoints = 5;
+                enemy.GetComponent<EnemyAttackAgent>().OnFire -= OnFire;
 
                 _enemyPool.UnspawnEnemy(enemy);
             }

@@ -32,11 +32,6 @@ namespace ShootEmUp
                 return;
             }
             
-            //if (!_target.GetComponent<HitPointsComponent>())
-            //{
-            //    return;
-            //}
-
             _currentTime -= Time.fixedDeltaTime;
             if (_currentTime <= 0)
             {

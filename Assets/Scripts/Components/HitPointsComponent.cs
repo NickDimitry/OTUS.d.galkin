@@ -8,7 +8,14 @@ namespace ShootEmUp
          public event Action<GameObject> hpEmpty;
         
         [SerializeField] private int _hitPoints;
-        
+        public int HitPoints
+        {
+            set
+            {
+                _hitPoints = value;
+            }
+        }
+
         public void TakeDamage(int damage)
         {
             _hitPoints -= damage;

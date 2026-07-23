@@ -6,5 +6,6 @@ public sealed class Player : MonoBehaviour
     {
         gameObject.AddComponent<MovePlayer>();
         gameObject.AddComponent<PlayerAttack>();
+        gameObject.AddComponent<PlayerLive>();
     }
 }
