@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 // В рамках практики, оставляю коментарии для закрипления материала
 public sealed class SceneCycleService: ISceneCycleService
@@ -6,6 +7,7 @@ public sealed class SceneCycleService: ISceneCycleService
     private readonly List<ISceneCycleAwake> _cycleAwake = new();
     private readonly List<ISceneCycleStart> _cycleStart = new();
     private readonly List<ISceneCycleUpdate> _cycleUpdate = new();
+    private readonly List<ISceneCycleFixedUpdate> _cycleFixedUpdate = new();
     private readonly List<ISceneCyclePause> _cyclePause = new();
     private readonly List<ISceneCycleOnDisable> _cycleOnDisable = new();
 
@@ -41,6 +43,14 @@ public sealed class SceneCycleService: ISceneCycleService
         }
     }
 
+    public void SceneFixedUpdate()
+    {
+            foreach (var cycle in _cycleFixedUpdate)
+            {
+                cycle.CycleFixedUpdate();
+            }
+    }
+
     public void SceneeOnDisable()
     {
         foreach (var cycle in _cycleOnDisable)
@@ -64,6 +74,11 @@ public sealed class SceneCycleService: ISceneCycleService
         if (SceneCycle is ISceneCycleUpdate CycleUpdate && !_cycleUpdate.Contains(CycleUpdate))
         {
             _cycleUpdate.Add(CycleUpdate);
+        }
+
+        if (SceneCycle is ISceneCycleFixedUpdate CycleFixedUpdate && !_cycleFixedUpdate.Contains(CycleFixedUpdate))
+        {
+            _cycleFixedUpdate.Add(CycleFixedUpdate);
         }
 
         if (SceneCycle is ISceneCyclePause CyclePause && !_cyclePause.Contains(CyclePause))

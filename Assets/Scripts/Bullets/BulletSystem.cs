@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class BulletSystem : MonoBehaviour
+    public sealed class BulletSystem : MonoBehaviour, ISceneCycle, ISceneCycleAwake, ISceneCycleFixedUpdate
     {
         [SerializeField]
         private int _initialCount = 50;
@@ -17,8 +17,8 @@ namespace ShootEmUp
         private readonly Queue<Bullet> _bulletPool = new();
         private readonly HashSet<Bullet> _activeBullets = new();
         private readonly List<Bullet> _cache = new();
-        
-        private void Awake()
+
+        public void CycleAwake()
         {
             for (var i = 0; i < _initialCount; i++)
             {
@@ -26,8 +26,8 @@ namespace ShootEmUp
                 _bulletPool.Enqueue(bullet);
             }
         }
-        
-        private void FixedUpdate()
+
+        public void CycleFixedUpdate()
         {
             _cache.Clear();
             _cache.AddRange(_activeBullets);
@@ -80,7 +80,7 @@ namespace ShootEmUp
                 _bulletPool.Enqueue(bullet);
             }
         }
-   
+
         public struct Args
         {
             public Vector2 position;

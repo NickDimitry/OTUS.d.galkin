@@ -33,4 +33,5 @@ public sealed class SceneCycleController : MonoBehaviour
     {
        _sceneCycleService.SceneUpdate();
     }
+
 }
