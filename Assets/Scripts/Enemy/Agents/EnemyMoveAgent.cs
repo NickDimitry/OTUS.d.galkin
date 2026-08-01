@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class EnemyMoveAgent : MonoBehaviour
+    public sealed class EnemyMoveAgent : MonoBehaviour, ISceneCycle, ISceneCycleFixedUpdate
     {
         [SerializeField] private MoveComponent _moveComponent;
 
@@ -15,7 +15,7 @@ namespace ShootEmUp
         }
 
 
-        private void FixedUpdate()
+        public void CycleFixedUpdate()
         {
             if (_isReached)
             {
@@ -40,5 +40,6 @@ namespace ShootEmUp
             _isReached = false;
         }
 
+    
     }
 }

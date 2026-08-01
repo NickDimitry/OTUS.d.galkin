@@ -15,9 +15,20 @@ namespace ShootEmUp
 
         public void CycleAwake()
         {
+            SceneCycleController sceneCycleController = FindAnyObjectByType<SceneCycleController>();
+
             for (var i = 0; i < _enemyObject; i++)
             {
+                
                 var enemy = Instantiate(_prefab, _container);
+
+                EnemyMoveAgent enemyMoveAgent = enemy.GetComponent<EnemyMoveAgent>();
+                EnemyAttackAgent enemyAttackAgent = enemy.GetComponent<EnemyAttackAgent>();
+
+                sceneCycleController.RegisterSceneCycleService(enemyMoveAgent);
+                sceneCycleController.RegisterSceneCycleService(enemyAttackAgent);
+                enemyAttackAgent.SetTarget(_character);
+
                 _enemyPool.Enqueue(enemy);
             }
         }
@@ -36,8 +47,6 @@ namespace ShootEmUp
             
             var attackPosition = _enemyPositions.RandomAttackPosition();
             enemy.GetComponent<EnemyMoveAgent>().SetDestination(attackPosition.position);
-
-            enemy.GetComponent<EnemyAttackAgent>().SetTarget(_character);
             return enemy;
         }
 

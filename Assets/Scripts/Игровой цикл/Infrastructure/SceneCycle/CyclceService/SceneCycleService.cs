@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 
 // В рамках практики, оставляю коментарии для закрипления материала
 public sealed class SceneCycleService: ISceneCycleService
@@ -45,10 +44,13 @@ public sealed class SceneCycleService: ISceneCycleService
 
     public void SceneFixedUpdate()
     {
+        if (!_isPause)
+        {
             foreach (var cycle in _cycleFixedUpdate)
             {
                 cycle.CycleFixedUpdate();
             }
+        }
     }
 
     public void SceneeOnDisable()

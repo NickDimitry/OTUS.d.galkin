@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class EnemyAttackAgent : MonoBehaviour
+    public sealed class EnemyAttackAgent : MonoBehaviour, ISceneCycle, ISceneCycleFixedUpdate
     {
         public delegate void FireHandler(GameObject enemy, Vector2 position, Vector2 direction);
 
@@ -25,13 +25,13 @@ namespace ShootEmUp
             _currentTime = _countdown;
         }
 
-        private void FixedUpdate()
+        public void CycleFixedUpdate()
         {
             if (!_moveAgent.IsReached)
             {
                 return;
             }
-            
+
             _currentTime -= Time.fixedDeltaTime;
             if (_currentTime <= 0)
             {
@@ -47,5 +47,6 @@ namespace ShootEmUp
             var direction = vector.normalized;
             OnFire?.Invoke(gameObject, startPosition, direction);
         }
+
     }
 }
