@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class EnemyPool : MonoBehaviour
+    public sealed class EnemyPool : MonoBehaviour, ISceneCycle, ISceneCycleAwake
     {
         [Header("Spawn"), SerializeField] private EnemyPositions _enemyPositions;
         [SerializeField] private GameObject _character;
@@ -12,8 +12,8 @@ namespace ShootEmUp
         [SerializeField] private GameObject _prefab;
         [SerializeField] private int _enemyObject;
         private readonly Queue<GameObject> _enemyPool = new();
-        
-        private void Awake()
+
+        public void CycleAwake()
         {
             for (var i = 0; i < _enemyObject; i++)
             {
@@ -46,5 +46,7 @@ namespace ShootEmUp
             enemy.transform.SetParent(_container);
             _enemyPool.Enqueue(enemy);
         }
+
+
     }
 }

@@ -721,6 +721,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SceneCycleRunner
   _entities:
   - {fileID: 4414282821800802398}
+  - {fileID: 562298207}
 --- !u!1 &61006797492197339
 GameObject:
   m_ObjectHideFlags: 0
