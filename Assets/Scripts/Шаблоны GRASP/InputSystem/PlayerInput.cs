@@ -2,24 +2,11 @@ using System;
 using UnityEngine;
 
 
-// Не забыть уточнить, можно ли было использовать новую систему ввода Unity
-
-
-public sealed class PlayerInput: MonoBehaviour
+public sealed class PlayerInput : MonoBehaviour, ISceneCycle, ISceneCycleUpdate
 {
-    #region Поля
 
     private Vector2 _vectorPlayer;
-
-    #endregion
-
-    #region Event
-
     public Action _playerAttack;
-
-    #endregion
-
-    #region Свойства
     public Vector2 VectorPlayer
     {
         get
@@ -27,10 +14,8 @@ public sealed class PlayerInput: MonoBehaviour
             return _vectorPlayer;
         }
     }
-    #endregion
 
-    #region MonoBehaviour
-    private void Update() // Вот, что-то мне тут не нравится, но не могу сказать что..... На подумать.
+    public void CycleUpdate()
     {
         if (Input.GetButtonDown("Fire1"))
         {
@@ -42,5 +27,4 @@ public sealed class PlayerInput: MonoBehaviour
         _vectorPlayer.x = _abscissa;
         _vectorPlayer.y = 0;
     }
-    #endregion
 }

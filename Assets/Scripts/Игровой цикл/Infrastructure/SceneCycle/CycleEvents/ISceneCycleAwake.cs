@@ -1,4 +1,4 @@
 public interface ISceneCycleAwake
 {
-    void CycleAwake();
+    public void CycleAwake();
 }

@@ -1,12 +1,11 @@
 using ShootEmUp;
 using UnityEngine;
 
-public class PlayerLive : MonoBehaviour
+public class PlayerLive : MonoBehaviour, ISceneCycle, ISceneCycleStart
 {
     private HitPointsComponent _hitPointsComponent;
 
-
-    private void Start()
+    public void CycleStart()
     {
         _hitPointsComponent = GetComponent<HitPointsComponent>();
         _hitPointsComponent.hpEmpty += DestroyPlayer;
@@ -27,4 +26,5 @@ public class PlayerLive : MonoBehaviour
     {
         _hitPointsComponent.hpEmpty -= DestroyPlayer;
     }
+
 }

@@ -1,4 +1,4 @@
 public interface ISceneCyclePause
 {
-    void CyclePause();
+    public void CyclePause();
 }

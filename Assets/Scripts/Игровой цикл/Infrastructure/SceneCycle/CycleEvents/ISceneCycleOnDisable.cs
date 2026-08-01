@@ -1,4 +1,4 @@
 public interface ISceneCycleOnDisable
 {
-    void CycleOnDisable();
+    public void CycleOnDisable();
 }

@@ -3,36 +3,26 @@ using UnityEngine;
 
 
 [RequireComponent(typeof(PlayerInput))]
-public sealed class PlayerAttack : MonoBehaviour
+public sealed class PlayerAttack : MonoBehaviour, ISceneCycle, ISceneCycleStart, ISceneCycleOnDisable
 {
-
-    #region —сылки
 
     private BulletSystem _bulletSystem;
     private Transform _firePoint;
     private BulletConfig _playerBulletConfig;
     private const string PATH_PLAYER_BULLET = "Bullet/PlayerBullet";
 
-    #endregion
-    #region MonoBehaviour
-
     private void OnEnable()
     {
         GetComponent<PlayerInput>()._playerAttack += Fire;
     }
 
-    private void Start()
+    public void CycleStart()
     {
         _bulletSystem = FindFirstObjectByType<BulletSystem>();
-        _firePoint = GameObject.Find("FirePoint").GetComponent<Transform>();    
+        _firePoint = GameObject.Find("FirePoint").GetComponent<Transform>();
         _playerBulletConfig = Resources.Load<BulletConfig>(PATH_PLAYER_BULLET);
     }
 
-    private void OnDisable()
-    {
-        GetComponent<PlayerInput>()._playerAttack -= Fire;
-    }
-    #endregion
 
     private void Fire()
     {
@@ -46,5 +36,10 @@ public sealed class PlayerAttack : MonoBehaviour
             velocity = _firePoint.rotation * Vector3.up * _playerBulletConfig.speed
         });
 
+    }
+
+    public void CycleOnDisable()
+    {
+        GetComponent<PlayerInput>()._playerAttack -= Fire;
     }
 }

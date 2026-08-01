@@ -1,4 +1,4 @@
 public interface ISceneCycleStart
 {
-    void CycleStart();
+    public void CycleStart();
 }

@@ -1,4 +1,4 @@
 public interface ISceneCycleUpdate: ISceneCycle
 {
-    void CycleUpdate();
+   public void CycleUpdate();
 }
