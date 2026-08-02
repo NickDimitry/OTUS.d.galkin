@@ -18,6 +18,24 @@ namespace ShootEmUp
         private readonly HashSet<Bullet> _activeBullets = new();
         private readonly List<Bullet> _cache = new();
 
+        [ContextMenu("StopActiveBullet")]
+        public void StopActiveBullet()
+        {
+            foreach (Bullet bullet in _activeBullets)
+            {
+                bullet.GetComponent<Rigidbody2D>().simulated = false;
+            }
+        }
+
+        [ContextMenu("RunActiveBullet")]
+        public void RunActiveBullet()
+        {
+            foreach (Bullet bullet in _activeBullets)
+            {
+                bullet.GetComponent<Rigidbody2D>().simulated = true;
+            }
+        }
+
         public void CycleAwake()
         {
             for (var i = 0; i < _initialCount; i++)

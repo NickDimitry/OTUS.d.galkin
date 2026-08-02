@@ -22,6 +22,10 @@ public sealed class SceneCycleController : MonoBehaviour
             }
         }
     }
+    public void Pause()
+    {
+        _sceneCycleService.ScenePause();
+    }
 
     private void Start()
     {
